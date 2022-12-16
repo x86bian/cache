@@ -20,7 +20,7 @@ jobs:
         uses: Vucko130/delete-older-releases@v0.2.1
         with:
           repo: armbianworker/cache
-          keep_latest: 1
+          keep_latest: 2
           delete_tags: true
           delete_tag_pattern: "0"
         env:
@@ -33,7 +33,7 @@ jobs:
           mkdir -p json
           sudo npm install --location=global json || true
           
-          LATEST=$(gh release list --repo github.com/armbian/cache 2>/dev/null -L 1 | awk '{ print $3 }' | sed "s/#//g")
+          LATEST=$(curl -s GET https://api.github.com/repos/armbian/cache/tags | jq -r '.[].name' | head -n1)
 
           gh release view ${LATEST} --repo $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/ || gh release create ${LATEST} -R $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/
         
@@ -49,6 +49,6 @@ jobs:
               gh release upload ${LATEST} $line -R $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/ --clobber
               rm $line || true
           fi
-          sleep 3
+          sleep 13
           
           done)
