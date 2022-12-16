@@ -49,6 +49,6 @@ jobs:
               gh release upload ${LATEST} $line -R $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/ --clobber
               rm $line || true
           fi
-          sleep 13
+          sleep 10
           
           done)
